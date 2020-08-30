@@ -32,6 +32,7 @@ export function clearDataInspector(): void {
 	(document.getElementById("float64") as HTMLInputElement).disabled = true;
 }
 
+
 /**
  * @description Giving a ByteData object and what endianness, populates the data inspector
  * @param {ByteData} byte_obj The ByteData object to represent on the data inspector
@@ -66,6 +67,8 @@ export function populateDataInspector(byte_obj: ByteData, littleEndian: boolean)
 	(document.getElementById("utf8") as HTMLInputElement).disabled = false;
 	(document.getElementById("utf16") as HTMLInputElement).value = byte_obj.toUTF16(littleEndian);
 	(document.getElementById("utf16") as HTMLInputElement).disabled = false;
+	(document.getElementById("hex8") as HTMLInputElement).value = byte_obj.toHexString(8, littleEndian);
+	(document.getElementById("hex4") as HTMLInputElement).value = byte_obj.toHexString(4, littleEndian);
 	const float64 = byte_obj.byteConverter(64, true, littleEndian, true);
 	(document.getElementById("float64") as HTMLInputElement).value = isNaN(Number(float64)) ? "End of File" : float64.toString();
 	(document.getElementById("float64") as HTMLInputElement).disabled = false;

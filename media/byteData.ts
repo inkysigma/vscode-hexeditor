@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 export class ByteData {
-    private decimal: number;
-    private adjacentBytes: ByteData[];
+	private decimal: number;
+	private adjacentBytes: ByteData[];
 
 	/**
 	 * @description Creates a ByteData object which acts as the datalayer for a single hex value
@@ -35,7 +35,7 @@ export class ByteData {
 	 * @returns {string} The ByteData represented a binary string
 	 */
 	toBinary(): string {
-		return ("00000000"+ this.decimal.toString(2)).slice(-8);
+		return ("00000000" + this.decimal.toString(2)).slice(-8);
 	}
 
 	/**
@@ -95,7 +95,7 @@ export class ByteData {
 	 */
 	byteConverter(numBits: number, signed: boolean, littleEndian: boolean, float = false): number | bigint {
 		if (numBits % 8 != 0) {
-			throw new Error ("Bits must be a multiple of 8!");
+			throw new Error("Bits must be a multiple of 8!");
 		}
 		if (this.adjacentBytes.length < (numBits / 8) - 1) return NaN;
 		const bytes = [];
@@ -117,8 +117,8 @@ export class ByteData {
 			return dataview.getInt32(0, littleEndian);
 		} else if (numBits == 32 && !signed) {
 			return dataview.getUint32(0, littleEndian);
-        // 24 bit isn't supported by default so we must add it
-        // It's safe to cast here as the only numbits that produces a big int is 64.
+			// 24 bit isn't supported by default so we must add it
+			// It's safe to cast here as the only numbits that produces a big int is 64.
 		} else if (numBits == 24 && signed) {
 			const first8 = (this.adjacentBytes[1].byteConverter(8, signed, littleEndian) as number) << 16;
 			return first8 | this.byteConverter(16, signed, littleEndian) as number;
@@ -133,7 +133,21 @@ export class ByteData {
 			return dataview.getInt8(0);
 		} else if (numBits == 8 && !signed) {
 			return this.decimal;
-        }
-        return NaN;
+		}
+		return NaN;
+	}
+
+
+	toHexString(byteLength: number, littleEndian: boolean): string {
+		let s = [];
+		s.push(this.toHex());
+		if (this.adjacentBytes.length < byteLength - 1) return "";
+		for (let i = 0; i < byteLength - 1; i++) {
+			s.push(this.adjacentBytes[i].toHex());
+		}
+		if (littleEndian) {
+			return s.reverse().join(" ");
+		}
+		return s.join(" ");
 	}
 }

@@ -331,6 +331,18 @@ export class HexEditorProvider implements vscode.CustomEditorProvider<HexDocumen
 					<div class="grid-item">
 						<input type="text" autocomplete="off" spellcheck="off" id="float64" readonly/>
 					</div>
+					<div class="grid-item">
+						<label for="hex4">4 byte hex</label>
+					</div>
+					<div class="grid-item">
+						<input type="text" autocomplete="off" spellcheck="off" id="hex4" readonly/>
+					</div>
+					<div class="grid-item">
+						<label for="hex8">8 byte hex</label>
+					</div>
+					<div class="grid-item">
+						<input type="text" autocomplete="off" spellcheck="off" id="hex8" readonly/>
+					</div>
 					<div class="grid-item endian-select">
 						<label for="endianness">Endianness</label>
 					</div>
